@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Button } from "@/components/ui/button"
+import { 
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
-function App() {
-  const [count, setCount] = useState(0)
+interface ConfigurationProps {
+  titre: string;
+  description: string;
+};
 
+function Configuration({titre, description} : ConfigurationProps) {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Card className="shadow-lg">
+      <CardHeader className="text-center">
+        <CardTitle>{titre}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
+      <div className="flex justify-center">
+      <CardAction>
+      <Button variant={"destructive"}>Configure</Button>
+      </CardAction>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </Card>
+);
 }
 
-export default App
+function FinanzPlanner() {
+  return (
+    <div className="w-screen flex justify-center">
+      <Card className="w-full max-w-2xl text-center shadow-lg">
+        <CardHeader>
+          <CardTitle>Configure my Finanz Planner</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
+          <Configuration
+            titre="TJM 💸"
+            description="The TJM (Average Daily Rate = Taux Journalier Moyen in French 🇫🇷) config helps you to configure and plan this parameter for your freelance missions"
+          />
+          <Configuration
+            titre="House 🏡"
+            description="The House config helps you to configure and plan a real estate loan"
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+
+
+
+export default FinanzPlanner;
