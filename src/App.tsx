@@ -15,14 +15,14 @@ interface ConfigurationProps {
 
 function Configuration({titre, description} : ConfigurationProps) {
   return (
-    <Card className="shadow-lg">
+    <Card className="border border-gray-300 shadow">
       <CardHeader className="text-center">
-        <CardTitle>{titre}</CardTitle>
+        <CardTitle className="font-bold">{titre}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <div className="flex justify-center">
       <CardAction>
-      <Button variant={"destructive"}>Configure</Button>
+      <Button className="bg-black text-white w-100">Configure</Button>
       </CardAction>
       </div>
     </Card>
@@ -32,11 +32,14 @@ function Configuration({titre, description} : ConfigurationProps) {
 function FinanzPlanner() {
   return (
     <div className="w-screen flex justify-center">
-      <Card className="w-full max-w-2xl text-center shadow-lg">
+      <Card className="mt-8 relative border border-gray-300 w-full max-w-2xl text-center shadow">
         <CardHeader>
-          <CardTitle>Configure my Finanz Planner</CardTitle>
+          <CardTitle className="font-bold">Configure my Finanz Planner</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
+          <CardAction>
+            <Button className="bg-white text-black shadow text-center absolute -top-4 -right-4 border border-gray-300"> ☀︎ </Button>
+          </CardAction>
           <Configuration
             titre="TJM 💸"
             description="The TJM (Average Daily Rate = Taux Journalier Moyen in French 🇫🇷) config helps you to configure and plan this parameter for your freelance missions"
