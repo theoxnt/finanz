@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import NumberFlow from "@number-flow/react";
 
 
 export default function TJM() {
@@ -63,10 +64,6 @@ export default function TJM() {
     return parseFloat((netWithTax*workedDays).toFixed(2));
   }
 
-
-
-
-
   const [netTotal, setNetTotal] = useState(computeNetTotal());
 
   useEffect(() => {
@@ -76,61 +73,71 @@ export default function TJM() {
   const navigateTo = useNavigate();
 
   return (
-    <Card className="mt-4 border border-gray-300 shadow">
-    <CardHeader>
-      <CardTitle className="text-2xl text-center">
-        <input type="text" defaultValue="New Configuration"/>
-      </CardTitle>
-    </CardHeader>
-    <CardContent >
-      <Button onClick={() => {navigateTo("/")}} className="bg-black text-white top-2 right-2">
-      Home
-      </Button>
+    <div className="m-4 border rounded-2xl border-gray-300 shadow">
 
-      <div className ="flex justify-center">
-        <TJMParameters
-        title="TJM"
-        description2="(HT)"
-        description="(TTC)"
-        value={TJMvalue}
-        max={1000}
-        min={0}
-        step={5}
-        inclTVA={inclTVA}
-        onChangeTVA={(value: boolean) => setInclTVA(value)}
-        onChange={(value:number) => setTJMvalue(value)}
-        />
-      </div>
-
-      <div className="overflow-auto">
-        <ul className="flex justify-center mb-2 space-x-6 liste-none">
-          {listTaxes}
-        </ul>
-      </div>
-      <div className="mt-4 flex justify-center" >
-        <Button onClick={() => {addTax()}}>
-          Ajouter une taxe
+      <div className="relative flex justify-between items-center w-full py-8 px-4">
+        <Button onClick={() => {navigateTo("/")}} className="bg-black text-white">
+          Home
+        </Button>
+        <h2 className="absolute left-1/2 transform -translate-x-1/2 text-xl">
+          <input className="text-center" type="text" defaultValue="New Configuration"/>
+        </h2>
+        <Button onClick={() => {navigateTo("/")}} className="bg-black text-white">
+          Change config
         </Button>
       </div>
 
-      <div className ="mt-4 flex justify-center">
-        <TJMParameters
-        title="Worked Days"
-        description=""
-        value={workedDays}
-        max={365}
-        min={0}
-        step={1}
-        onChange={(value:number) => setWorkedDays(value)}
-        />
-      </div>
+      <div className="space-y-4 flex flex-col justify-center items-center">
+        <div>
+          <TJMParameters
+          title="TJM"
+          description2="(HT)"
+          description="(TTC)"
+          value={TJMvalue}
+          max={1000}
+          min={0}
+          step={5}
+          inclTVA={inclTVA}
+          onChangeTVA={(value: boolean) => setInclTVA(value)}
+          onChange={(value:number) => setTJMvalue(value)}
+          />
+        </div>
 
-      <div className="justify-center flex">
-        Total net: 
-        {netTotal}
+        <div>
+          <ul className="flex justify-center mb-2 space-x-6 liste-none">
+            {listTaxes}
+          </ul>
+        </div>
+        <div className="mt-4 flex justify-center" >
+          <Button onClick={() => {addTax()}}>
+            Ajouter une taxe
+          </Button>
+        </div>
+
+        <div>
+          <TJMParameters
+          title="Worked Days"
+          description=""
+          value={workedDays}
+          max={365}
+          min={0}
+          step={1}
+          onChange={(value:number) => setWorkedDays(value)}
+          />
+        </div>
+
+        <div className="text-lg items-center flex flex-col">
+          Total net: 
+          <NumberFlow className="text-3xl font-bold" value={netTotal}/>
+        </div>
+
+        <div className="text-lg items-center flex flex-col">
+          Total brut: 
+          <NumberFlow className="text-3xl font-bold" value={netTotal}/>
+        </div>
       </div>
-    </CardContent>
-    </Card>
+      
+    </div>
   );
 }
 
