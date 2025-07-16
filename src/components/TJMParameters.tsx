@@ -42,7 +42,7 @@ export default function TJMParameters ({
 }, [editing]);
 
   return (
-    <div className="w-45">
+    <div className="w-45 flex flex-col justify-center">
       <h1 className="text-center font-bold">
         {title}
         <span className="ml-2 text-gray-500">

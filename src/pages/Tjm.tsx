@@ -1,15 +1,8 @@
 import TJMParameters from "@/components/TJMParameters";
 import { Button } from "@/components/ui/button";
-import { 
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import NumberFlow from "@number-flow/react";
-
 
 export default function TJM() {
 
@@ -70,6 +63,34 @@ export default function TJM() {
     setNetTotal(computeNetTotal())
   }, [workedDays, taxes, inclTVA, TJMvalue])
 
+  const initialCircles: any[] = []
+  taxes.forEach((tax) => 
+    initialCircles.push({
+      id: Date.now(),
+      radius: tax.number}))
+
+  const [circles, setCircles] = useState(initialCircles)
+
+  const computeCircles = () => {
+    const newCircles: any[] = []
+    taxes.forEach((tax) => 
+      newCircles.push({
+        id: tax.id,
+        radius: 100-tax.number,
+        width: tax.number}));
+    setCircles(newCircles);
+  }
+
+  useEffect(() => {
+    computeCircles();
+  }, [taxes]);
+
+  const listCircles = circles.map(circle => 
+    <>
+      <circle stroke="orange" stroke-width={circle.width} cx="100" cy="100" r={circle.radius} fill="none"/>
+    </>
+  )
+
   const navigateTo = useNavigate();
 
   return (
@@ -82,7 +103,7 @@ export default function TJM() {
         <h2 className="absolute left-1/2 transform -translate-x-1/2 text-xl">
           <input className="text-center" type="text" defaultValue="New Configuration"/>
         </h2>
-        <Button onClick={() => {navigateTo("/")}} className="bg-black text-white">
+        <Button onClick={() => {navigateTo("/configTJM")}} className="bg-black text-white">
           Change config
         </Button>
       </div>
@@ -135,8 +156,12 @@ export default function TJM() {
           Total brut: 
           <NumberFlow className="text-3xl font-bold" value={netTotal}/>
         </div>
+        <svg width="200" height="200" >
+          <circle stroke="white" stroke-width="20" cx="100" cy="100" r="100" fill="red"/>
+          {listCircles}
+        </svg>
       </div>
-      
+
     </div>
   );
 }
