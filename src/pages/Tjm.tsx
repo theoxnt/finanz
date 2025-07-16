@@ -7,15 +7,15 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function TJM() {
 
-  const [TJMvalue, setTJMvalue] = useState(0);
+  const [TJMvalue, setTJMvalue] = useState(350);
   const [inclTVA, setInclTVA] = useState(true);
 
-  const [taxes, setTaxes] = useState([{id: Date.now(), number: 0}]);
+  const [taxes, setTaxes] = useState([{id: Date.now(), number: 12.5}]);
 
   const listTaxes = taxes.map(tax => (
     <li className ="mt-4 flex justify-center" key={tax.id}>
@@ -50,18 +50,28 @@ export default function TJM() {
     setTaxes(newTaxes);
   }
 
-  const [workedDays, setWorkedDays] = useState(0)
+  const [workedDays, setWorkedDays] = useState(20)
 
   const computeNetTotal = () => {
     const netWithoutTax = inclTVA ? TJMvalue / 1.2 : TJMvalue
     const netWithTax = taxes.reduce((acc, current) => {
       if (current.number !== 0) {
-        return acc - (current.number / 100 * acc);
+        return acc - (current.number / 100 * TJMvalue);
       }
       return acc;
     }, netWithoutTax);
     return parseFloat((netWithTax*workedDays).toFixed(2));
   }
+
+
+
+
+
+  const [netTotal, setNetTotal] = useState(computeNetTotal());
+
+  useEffect(() => {
+    setNetTotal(computeNetTotal())
+  }, [workedDays, taxes, inclTVA, TJMvalue])
 
   const navigateTo = useNavigate();
 
@@ -117,7 +127,7 @@ export default function TJM() {
 
       <div className="justify-center flex">
         Total net: 
-        {computeNetTotal()}
+        {netTotal}
       </div>
     </CardContent>
     </Card>
